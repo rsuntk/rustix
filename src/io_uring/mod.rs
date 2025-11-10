@@ -46,6 +46,7 @@ pub use crate::ffi::c_char;
 pub use crate::fs::{
     Advice, AtFlags, Mode, OFlags, RenameFlags, ResolveFlags, Statx, StatxFlags, XattrFlags,
 };
+#[cfg(all(linux_kernel, not(target_os = "android")))]
 pub use crate::io::ReadWriteFlags;
 pub use crate::kernel_sigset::KernelSigSet;
 pub use crate::net::addr::{SocketAddrLen, SocketAddrOpaque, SocketAddrStorage};
@@ -1501,6 +1502,7 @@ pub union addr_or_splice_off_in_union {
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub union op_flags_union {
+    #[cfg(all(linux_kernel, not(target_os = "android")))]
     pub rw_flags: crate::io::ReadWriteFlags,
     pub fsync_flags: IoringFsyncFlags,
     pub poll_events: u16,
